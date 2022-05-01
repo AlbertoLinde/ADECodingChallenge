@@ -1,0 +1,47 @@
+package com.linde.codingchallenge.service;
+
+import com.linde.codingchallenge.entity.Bike;
+import com.linde.codingchallenge.entity.Police;
+import com.linde.codingchallenge.repository.PoliceRepository;
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Data
+@Service
+public class PoliceServiceImpl implements PoliceService {
+
+    @Autowired
+    private PoliceRepository policeRepository;
+
+    @Override
+    public Police createPolice(Police police) {
+        return policeRepository.save(police);
+    }
+
+    @Override
+    public Optional<Police> getPoliceById(Long id) {
+        return policeRepository.findById(id);
+    }
+
+    @Override
+    public List<Police> getAllPolices() {
+        return policeRepository.findAll();
+    }
+
+    public Optional<Police> getPoliceByStolenBike(Long id) {
+        return policeRepository.findPoliceByStolenBike(id);
+    }
+
+    public List<Police> getAllPolicesInvestigating() {
+        return policeRepository.findAllPoliceByInvestigatingTrue();
+    }
+
+    public List<Police> getAllPolicesNotInvestigating() {
+        return policeRepository.findAllPoliceByInvestigatingFalse();
+    }
+
+}

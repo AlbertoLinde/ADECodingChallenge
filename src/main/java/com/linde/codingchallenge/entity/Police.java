@@ -14,38 +14,23 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "bikes")
+@Table(name = "polices")
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
-public class Bike implements Serializable {
+public class Police implements Serializable {
 
-    private static final long serialVersionUID = 201176687649266603L;
+    private static final long serialVersionUID = 4053835314175361249L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(length = 7, unique = true)
-    String licenceNumber;
-
     @Column
-    String type;
+    String name;
 
-    @Column
-    String color;
-
-    @Column
-    String ownerName;
-
-    @Column(length = 100)
-    String thiefDescription;
-
-    @Column
-    String stolenAddress;
-
-    @Column
-    Boolean stolenStatus;
+    @Column(name = "investigating")
+    Boolean investigating;
 
     @OneToOne(fetch = FetchType.LAZY)
-    Police police;
+    Bike stolenBike;
 
 }
