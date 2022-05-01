@@ -14,26 +14,16 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "polices")
+@Table(name = "police_department")
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
-public class Police implements Serializable {
+public class PoliceDepartment implements Serializable {
 
-    private static final long serialVersionUID = 4053835314175361249L;
-
+    private static final long serialVersionUID = 608632924154566107L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @Column
-    String name;
-
-    @Column(name = "investigating")
-    Boolean investigating;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    Bike stolenBike;
-
-    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    PoliceDepartment policeDepartment;
+    String departmentName;
 
 }

@@ -1,6 +1,5 @@
 package com.linde.codingchallenge.rest;
 
-import com.linde.codingchallenge.entity.Bike;
 import com.linde.codingchallenge.entity.Police;
 import com.linde.codingchallenge.service.PoliceServiceImpl;
 import lombok.RequiredArgsConstructor;
