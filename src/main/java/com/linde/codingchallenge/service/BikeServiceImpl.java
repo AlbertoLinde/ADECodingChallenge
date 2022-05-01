@@ -2,7 +2,6 @@ package com.linde.codingchallenge.service;
 
 import com.linde.codingchallenge.entity.Bike;
 import com.linde.codingchallenge.repository.BikeRepository;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +9,6 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
-@Data
 @Service
 public class BikeServiceImpl implements BikeService {
 
