@@ -2,7 +2,6 @@ package com.linde.codingchallenge.rest;
 
 import com.linde.codingchallenge.entity.Police;
 import com.linde.codingchallenge.entity.PoliceDepartment;
-import com.linde.codingchallenge.repository.PoliceRepository;
 import com.linde.codingchallenge.service.PoliceDepartmentServiceImpl;
 import com.linde.codingchallenge.service.PoliceServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +19,6 @@ public class PoliceController {
 
     private final PoliceServiceImpl policeService;
     private final PoliceDepartmentServiceImpl policeDepartmentService;
-
-    private final PoliceRepository policeRepository;
 
     @PostMapping(value = "/addPolice")
     public ResponseEntity<?> newPolice(@RequestBody Police police) {
@@ -62,16 +59,16 @@ public class PoliceController {
         return policeService.getAllPolicesNotInvestigating();
     }
 
-    @PutMapping("/polices/{policeId}/{departmentId}")
-    public ResponseEntity<?> policeDepartment(@PathVariable("policeId") Long policeId, @PathVariable("departmentId") Long departmentId) {
+    @PutMapping("/police/{policeId}/department/{departmentId}")
+    public ResponseEntity<?> assignPoliceDepartmentToPolice(@PathVariable("policeId") Long policeId, @PathVariable("departmentId") Long departmentId) {
 
-        Optional<PoliceDepartment> policeDepartment = policeDepartmentService.getPoliceDepartmentById(departmentId);
-        Optional<Police> police = policeService.getPoliceById(policeId);
+        Optional<PoliceDepartment> optPoliceDepartment = policeDepartmentService.getPoliceDepartmentById(departmentId);
+        Optional<Police> optPolice = policeService.getPoliceById(policeId);
 
-        if (policeDepartment.isPresent() && police.isPresent()) {
-            Police pol = police.get();
-            pol.setPoliceDepartment(policeDepartment.get());
-            return new ResponseEntity<>(policeRepository.save(pol), HttpStatus.OK);
+        if (optPoliceDepartment.isPresent() && optPolice.isPresent()) {
+            Police police = optPolice.get();
+            police.setPoliceDepartment(optPoliceDepartment.get());
+            return new ResponseEntity<>(policeService.updatePolice(police), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

@@ -13,4 +13,6 @@ public interface PoliceService {
 
     List<Police> getAllPolices();
 
+    Police updatePolice(Police police);
+
 }
