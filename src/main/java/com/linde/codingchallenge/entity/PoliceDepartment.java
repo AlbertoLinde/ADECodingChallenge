@@ -1,15 +1,16 @@
 package com.linde.codingchallenge.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,12 +22,19 @@ public class PoliceDepartment implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column
-    String departmentName;
+    private String departmentName;
+//
+//    @OneToMany(fetch = FetchType.EAGER, mappedBy = "id")
+//    List<Police> polices;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "id")
-    List<Police> polices;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "policeDepartment")
+//    //@JoinColumn(name = "department_id")
+//    private Set<Police> polices = new HashSet<>();
+
+    @OneToMany(mappedBy = "policeDepartment", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Police> polices;
 
 }

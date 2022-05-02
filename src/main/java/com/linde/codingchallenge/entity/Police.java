@@ -1,5 +1,6 @@
 package com.linde.codingchallenge.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
@@ -7,10 +8,9 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "polices")
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
@@ -20,19 +20,19 @@ public class Police implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column
-    String name;
+    private String name;
 
     @Column(name = "investigating")
-    Boolean investigating;
+    private Boolean investigating;
 
     @OneToOne(fetch = FetchType.LAZY)
-    Bike stolenBike;
+    private Bike stolenBike;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "police_department_id", referencedColumnName = "id")
-    PoliceDepartment policeDepartment;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
+    private PoliceDepartment policeDepartment;
 
 }
