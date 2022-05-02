@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PoliceDepartmentServiceImpl implements PoliceDepartmentService {
@@ -23,4 +24,11 @@ public class PoliceDepartmentServiceImpl implements PoliceDepartmentService {
     public List<PoliceDepartment> getAllDepartments() {
         return policeDepartmentRepository.findAll();
     }
+
+    @Override
+    public Optional<PoliceDepartment> getPoliceDepartmentById(Long id) {
+        return policeDepartmentRepository.findById(id);
+    }
+
+
 }

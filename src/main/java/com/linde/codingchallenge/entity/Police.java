@@ -1,10 +1,8 @@
 package com.linde.codingchallenge.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -33,7 +31,8 @@ public class Police implements Serializable {
     @OneToOne(fetch = FetchType.LAZY)
     Bike stolenBike;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "police_department_id", referencedColumnName = "id")
     PoliceDepartment policeDepartment;
 
 }

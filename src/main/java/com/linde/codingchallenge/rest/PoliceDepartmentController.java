@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,8 +19,18 @@ public class PoliceDepartmentController {
 
     @PostMapping(value = "/addPoliceDepartment")
     public ResponseEntity<?> newDepartment(@RequestBody PoliceDepartment policeDepartment) {
+        System.out.println(policeDepartment);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(policeDepartmentService.createDepartment(policeDepartment));
+    }
+
+    @GetMapping(value = "/departments/{id}")
+    public ResponseEntity<?> getPoliceDepartmentById(@PathVariable("id") Long id) {
+        Optional<PoliceDepartment> police = policeDepartmentService.getPoliceDepartmentById(id);
+        if (police.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(police);
     }
 
     @GetMapping(value = "/departments")

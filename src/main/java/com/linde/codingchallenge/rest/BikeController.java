@@ -1,7 +1,9 @@
 package com.linde.codingchallenge.rest;
 
 import com.linde.codingchallenge.entity.Bike;
+import com.linde.codingchallenge.entity.Police;
 import com.linde.codingchallenge.service.BikeServiceImpl;
+import com.linde.codingchallenge.service.PoliceServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +19,16 @@ public class BikeController {
 
     private final BikeServiceImpl bikeService;
 
+    private final PoliceServiceImpl policeService;
+
     @PostMapping(value = "/addBike")
     public ResponseEntity<?> newBike(@RequestBody Bike bike) {
+        List<Police> freePolices = policeService.getAllPolicesNotInvestigating();
+        if (!freePolices.isEmpty()) {
+            Police police = freePolices.stream().findAny().get();
+            police.setInvestigating(true);
+            bike.setPolice(police);
+        }
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(bikeService.createBike(bike));
     }
@@ -69,6 +79,18 @@ public class BikeController {
     @GetMapping(value = "/bikes/stolen_status/{stolenStatus}")
     public List<Bike> getBikesByStolenStatus(@PathVariable("stolenStatus") Boolean stolenStatus) {
         return bikeService.getBikesByStolenStatus(stolenStatus);
+    }
+
+    @PutMapping("/bike/{id}")
+    public ResponseEntity<?> updateStatusBike(@PathVariable("id") Long id) {
+        Optional<Bike> bike = bikeService.getBikeById(id);
+        if (bike.isPresent()) {
+            Bike stolenBike = bike.get();
+            stolenBike.setPolice(null);
+            stolenBike.setStolenStatus(false);
+            return ResponseEntity.ok(stolenBike);
+        }
+        return ResponseEntity.notFound().build();
     }
 
 }
