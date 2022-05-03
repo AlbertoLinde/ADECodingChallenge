@@ -2,6 +2,7 @@ package com.linde.codingchallenge.rest;
 
 import com.linde.codingchallenge.entity.Police;
 import com.linde.codingchallenge.entity.PoliceDepartment;
+import com.linde.codingchallenge.service.BikeServiceImpl;
 import com.linde.codingchallenge.service.PoliceDepartmentServiceImpl;
 import com.linde.codingchallenge.service.PoliceServiceImpl;
 import lombok.RequiredArgsConstructor;

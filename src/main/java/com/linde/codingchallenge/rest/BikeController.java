@@ -4,6 +4,7 @@ import com.linde.codingchallenge.entity.Bike;
 import com.linde.codingchallenge.entity.Police;
 import com.linde.codingchallenge.service.BikeServiceImpl;
 import com.linde.codingchallenge.service.PoliceServiceImpl;
+import com.linde.codingchallenge.util.ListUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,12 +23,13 @@ public class BikeController {
     private final PoliceServiceImpl policeService;
 
     @PostMapping(value = "/addBike")
-    public ResponseEntity<?> newBike(@RequestBody Bike bike) {
+    public ResponseEntity<Bike> newBike(@RequestBody Bike bike) {
         List<Police> freePolices = policeService.getAllPolicesNotInvestigating();
         if (!freePolices.isEmpty()) {
-            Police police = freePolices.stream().findAny().get();
-            police.setInvestigating(true);
-            bike.setPolice(police);
+            Police policeAssigned = freePolices.stream().findAny().get();
+            policeAssigned.setInvestigating(true);
+            bike.setPolice(policeAssigned);
+            policeService.updatePolice(policeAssigned);
         }
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(bikeService.createBike(bike));
@@ -90,6 +92,24 @@ public class BikeController {
             stolenBike.setStolenStatus(false);
             return ResponseEntity.ok(stolenBike);
         }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/bikes/assign-polices")
+    public ResponseEntity<List<Bike>> assignFreePoliceToStolenBikes() {
+        List<Police> freePolices = policeService.getAllPolicesNotInvestigating();
+        List<Bike> stolenBikes = bikeService.getBikesByStolenStatus(true);
+
+        if (!freePolices.isEmpty() && !stolenBikes.isEmpty()) {
+            List<Bike> bikesAssigned = ListUtil.zipList(freePolices, stolenBikes, (police, bike) -> {
+                police.setInvestigating(true);
+                bike.setStolenStatus(true);
+                bike.setPolice(police);
+                return bike;
+            });
+            return ResponseEntity.ok().body(bikesAssigned);
+        }
+
         return ResponseEntity.notFound().build();
     }
 
