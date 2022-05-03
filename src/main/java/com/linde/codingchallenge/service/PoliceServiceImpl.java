@@ -20,6 +20,11 @@ public class PoliceServiceImpl implements PoliceService {
     }
 
     @Override
+    public Police updatePolice(Police police) {
+        return policeRepository.save(police);
+    }
+
+    @Override
     public Optional<Police> getPoliceById(Long id) {
         return policeRepository.findById(id);
     }
@@ -27,10 +32,6 @@ public class PoliceServiceImpl implements PoliceService {
     @Override
     public List<Police> getAllPolices() {
         return policeRepository.findAll();
-    }
-
-    public Optional<Police> getPoliceByStolenBike(Long id) {
-        return policeRepository.findPoliceByStolenBike(id);
     }
 
     public List<Police> getAllPolicesInvestigating() {
