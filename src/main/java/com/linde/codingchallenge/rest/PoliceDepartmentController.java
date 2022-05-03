@@ -17,14 +17,13 @@ public class PoliceDepartmentController {
 
     private final PoliceDepartmentServiceImpl policeDepartmentService;
 
-    @PostMapping(value = "/addPoliceDepartment")
+    @PostMapping(value = "/add-department")
     public ResponseEntity<?> newDepartment(@RequestBody PoliceDepartment policeDepartment) {
-        System.out.println(policeDepartment);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(policeDepartmentService.createDepartment(policeDepartment));
     }
 
-    @GetMapping(value = "/departments/{id}")
+    @GetMapping(value = "/department/{id}")
     public ResponseEntity<?> getPoliceDepartmentById(@PathVariable("id") Long id) {
         Optional<PoliceDepartment> police = policeDepartmentService.getPoliceDepartmentById(id);
         if (police.isEmpty()) {

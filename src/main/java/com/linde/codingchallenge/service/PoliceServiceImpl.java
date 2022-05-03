@@ -34,10 +34,6 @@ public class PoliceServiceImpl implements PoliceService {
         return policeRepository.findAll();
     }
 
-    public Optional<Police> getPoliceByStolenBike(Long id) {
-        return policeRepository.findPoliceByStolenBike(id);
-    }
-
     public List<Police> getAllPolicesInvestigating() {
         return policeRepository.findAllPoliceByInvestigatingTrue();
     }

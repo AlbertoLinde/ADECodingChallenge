@@ -43,7 +43,7 @@ public class BikeController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping(value = "/bikes/{id}")
+    @GetMapping(value = "/bike/{id}")
     public ResponseEntity<?> getBikeById(@PathVariable("id") Long id) {
         Optional<Bike> bike = bikeService.getBikeById(id);
         if (bike.isEmpty()) {
@@ -52,7 +52,7 @@ public class BikeController {
         return ResponseEntity.ok(bike);
     }
 
-    @GetMapping(value = "/bikes/licence_number/{licenceNumber}")
+    @GetMapping(value = "/bike/licence-number/{licenceNumber}")
     public ResponseEntity<?> getBikeByLicenceNumber(@PathVariable("licenceNumber") String licenceNumber) {
         Optional<Bike> bike = bikeService.getBikeByLicenceNumber(licenceNumber);
         if (bike.isEmpty()) {
@@ -66,19 +66,19 @@ public class BikeController {
         return bikeService.getAllBikes();
     }
 
-    @GetMapping(value = "/bikes/color/{color}")
+    @GetMapping(value = "/bike/color/{color}")
     public List<Bike> getBikeByColor(@PathVariable("color") String color) {
         return bikeService.getBikesByColor(color);
     }
 
-    @GetMapping(value = "/bikes/type/{type}")
+    @GetMapping(value = "/bike/type/{type}")
     public List<Bike> getBikeByType(@PathVariable("type") String type) {
         return bikeService.getBikesByType(type);
     }
 
-    @GetMapping(value = "/bikes/stolen_status/{stolenStatus}")
-    public List<Bike> getBikesByStolenStatus(@PathVariable("stolenStatus") Boolean stolenStatus) {
-        return bikeService.getBikesByStolenStatus(stolenStatus);
+    @GetMapping(value = "/bikes/stolen-status/{stolen-status}")
+    public List<Bike> getBikesByStolenStatus(@PathVariable("stolen-status") Boolean status) {
+        return bikeService.getBikesByStolenStatus(status);
     }
 
     @PutMapping("/bike/{id}")

@@ -20,7 +20,7 @@ public class PoliceController {
     private final PoliceServiceImpl policeService;
     private final PoliceDepartmentServiceImpl policeDepartmentService;
 
-    @PostMapping(value = "/addPolice")
+    @PostMapping(value = "/add-police")
     public ResponseEntity<?> newPolice(@RequestBody Police police) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(policeService.createPolice(police));
@@ -29,15 +29,6 @@ public class PoliceController {
     @GetMapping(value = "/police/{id}")
     public ResponseEntity<?> getPoliceById(@PathVariable("id") Long id) {
         Optional<Police> police = policeService.getPoliceById(id);
-        if (police.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(police);
-    }
-
-    @GetMapping(value = "/police/stolen_bike/{id}")
-    public ResponseEntity<?> getPoliceByStolenBike(@PathVariable("id") Long id) {
-        Optional<Police> police = policeService.getPoliceByStolenBike(id);
         if (police.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -54,7 +45,7 @@ public class PoliceController {
         return policeService.getAllPolicesInvestigating();
     }
 
-    @GetMapping(value = "/polices/not_investigating")
+    @GetMapping(value = "/polices/not-investigating")
     public List<Police> getAllPolicesNotInvestigating() {
         return policeService.getAllPolicesNotInvestigating();
     }

@@ -28,9 +28,6 @@ public class Police implements Serializable {
     @Column(name = "investigating")
     private Boolean investigating;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    private Bike stolenBike;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
     private PoliceDepartment policeDepartment;
