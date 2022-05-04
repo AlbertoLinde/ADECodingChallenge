@@ -2,7 +2,6 @@ package com.linde.codingchallenge.service;
 
 import com.linde.codingchallenge.entity.Bike;
 import com.linde.codingchallenge.repository.BikeRepository;
-import com.linde.codingchallenge.repository.PoliceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +15,6 @@ public class BikeServiceImpl implements BikeService {
 
     @Autowired
     private BikeRepository bikeRepository;
-
-    @Autowired
-    private PoliceRepository policeRepository;
 
     @Override
     public Bike createBike(Bike bike) {
@@ -51,8 +47,8 @@ public class BikeServiceImpl implements BikeService {
     }
 
     @Override
-    public void updateStatusBike(Bike bike) {
-        bikeRepository.save(bike);
+    public Bike bikeFound(Bike bike) {
+        return bikeRepository.save(bike);
     }
 
     @Override

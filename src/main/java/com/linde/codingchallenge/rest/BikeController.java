@@ -109,8 +109,26 @@ public class BikeController {
             });
             return ResponseEntity.ok().body(bikesAssigned);
         }
-
         return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/bike/found-bike/{id}")
+    public ResponseEntity<?> bikeHasBeenFound(@PathVariable("id") Long id) {
+        Optional<Bike> bike = bikeService.getBikeById(id);
+        if (bike.isPresent()) {
+            Bike foundBike = bike.get();
+            Police policeInvestigating = bike.get().getPolice();
+            policeInvestigating.setInvestigating(false);
+            foundBike.setPolice(null);
+            foundBike.setStolenStatus(false);
+
+            policeService.updatePolice(policeInvestigating);
+
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(bikeService.bikeFound(foundBike));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("ERROR: Can't find the Bike with ID: " + id + " in the DB.");
     }
 
 }
