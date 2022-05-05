@@ -1,7 +1,9 @@
 package com.linde.codingchallenge.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +11,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -20,6 +23,7 @@ public class Bike implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     Long id;
 
     @Column(length = 7, unique = true)
@@ -34,6 +38,9 @@ public class Bike implements Serializable {
     @Column
     String ownerName;
 
+    @Column
+    String email;
+
     @Column(length = 100)
     String thiefDescription;
 
@@ -44,6 +51,7 @@ public class Bike implements Serializable {
     Boolean stolenStatus;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     Police police;
 
 }

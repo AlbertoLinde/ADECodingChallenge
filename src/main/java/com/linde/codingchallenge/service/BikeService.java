@@ -12,6 +12,10 @@ public interface BikeService {
 
     List<Bike> getAllBikes();
 
-    void updateStatusBike(Bike bike);
+    Bike bikeFound(Bike bike);
+
+    List<Bike> findBikeByColorOrTypeOrStolenStatus(String color, String type, Boolean stolenStatus);
+
+    void deleteAllBike();
 
 }

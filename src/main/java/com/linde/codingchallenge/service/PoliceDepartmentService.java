@@ -9,8 +9,8 @@ public interface PoliceDepartmentService {
 
     PoliceDepartment createDepartment(PoliceDepartment policeDepartment);
 
-    List<PoliceDepartment> getAllDepartments();
+    List<PoliceDepartment> findAllDepartments();
 
-    Optional<PoliceDepartment> getPoliceDepartmentById(Long id);
+    Optional<PoliceDepartment> findPoliceDepartmentById(Long id);
 
 }

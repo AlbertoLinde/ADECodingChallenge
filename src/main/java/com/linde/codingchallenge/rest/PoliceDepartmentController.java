@@ -25,7 +25,7 @@ public class PoliceDepartmentController {
 
     @GetMapping(value = "/department/{id}")
     public ResponseEntity<?> getPoliceDepartmentById(@PathVariable("id") Long id) {
-        Optional<PoliceDepartment> police = policeDepartmentService.getPoliceDepartmentById(id);
+        Optional<PoliceDepartment> police = policeDepartmentService.findPoliceDepartmentById(id);
         if (police.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -34,7 +34,7 @@ public class PoliceDepartmentController {
 
     @GetMapping(value = "/departments")
     public List<PoliceDepartment> getAllDepartments() {
-        return policeDepartmentService.getAllDepartments();
+        return policeDepartmentService.findAllDepartments();
     }
 
 }
