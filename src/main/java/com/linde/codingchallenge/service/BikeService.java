@@ -14,4 +14,6 @@ public interface BikeService {
 
     Bike bikeFound(Bike bike);
 
+    List<Bike> findBikeByColorOrTypeOrStolenStatus(String color, String type, Boolean stolenStatus);
+
 }

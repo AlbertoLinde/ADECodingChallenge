@@ -11,12 +11,14 @@ import java.util.Optional;
 @Repository
 public interface BikeRepository extends JpaRepository<Bike, Long> {
 
-    Optional<Bike> getBikeByLicenceNumber(String licenceNumber);
+    Optional<Bike> findBikeByLicenceNumber(String licenceNumber);
 
-    List<Bike> getBikesByColor(String color);
+    List<Bike> findBikesByColor(String color);
 
-    List<Bike> getBikesByType(String type);
+    List<Bike> findBikesByType(String type);
 
-    List<Bike> getBikeByStolenStatus(Boolean status);
+    List<Bike> findBikesByStolenStatus(Boolean status);
+
+    List<Bike> findBikeByColorOrTypeOrStolenStatus(String color, String type, Boolean status);
 
 }
