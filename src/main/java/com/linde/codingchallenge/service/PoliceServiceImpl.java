@@ -25,20 +25,22 @@ public class PoliceServiceImpl implements PoliceService {
     }
 
     @Override
-    public Optional<Police> getPoliceById(Long id) {
+    public Optional<Police> findPoliceById(Long id) {
         return policeRepository.findById(id);
     }
 
     @Override
-    public List<Police> getAllPolices() {
+    public List<Police> findAllPolice() {
         return policeRepository.findAll();
     }
 
-    public List<Police> getAllPolicesInvestigating() {
+    @Override
+    public List<Police> findAllPoliceInvestigating() {
         return policeRepository.findAllPoliceByInvestigatingTrue();
     }
 
-    public List<Police> getAllPolicesNotInvestigating() {
+    @Override
+    public List<Police> findAllPoliceNotInvestigating() {
         return policeRepository.findAllPoliceByInvestigatingFalse();
     }
 

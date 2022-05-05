@@ -32,7 +32,7 @@ public class BikeController {
     @Operation(summary = "Create new Stolen Bike")
     @PostMapping(value = "/addBike")
     public ResponseEntity<Bike> newBike(@RequestBody Bike bike) {
-        List<Police> freePolices = policeService.getAllPolicesNotInvestigating();
+        List<Police> freePolices = policeService.findAllPoliceNotInvestigating();
         if (!freePolices.isEmpty()) {
             Police policeAssigned = freePolices.stream().findAny().get();
             policeAssigned.setInvestigating(true);
@@ -124,7 +124,7 @@ public class BikeController {
     @Operation(summary = "Assign free police officers to stolen bikes")
     @PutMapping("/bikes/assign-polices")
     public ResponseEntity<List<Bike>> assignFreePoliceToStolenBikes() {
-        List<Police> freePolices = policeService.getAllPolicesNotInvestigating();
+        List<Police> freePolices = policeService.findAllPoliceNotInvestigating();
         List<Bike> stolenBikes = bikeService.findBikesByCurrentStatus(true);
 
         if (!freePolices.isEmpty() && !stolenBikes.isEmpty()) {

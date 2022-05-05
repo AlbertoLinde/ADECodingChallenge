@@ -21,12 +21,12 @@ public class PoliceDepartmentServiceImpl implements PoliceDepartmentService {
     }
 
     @Override
-    public List<PoliceDepartment> getAllDepartments() {
+    public List<PoliceDepartment> findAllDepartments() {
         return policeDepartmentRepository.findAll();
     }
 
     @Override
-    public Optional<PoliceDepartment> getPoliceDepartmentById(Long id) {
+    public Optional<PoliceDepartment> findPoliceDepartmentById(Long id) {
         return policeDepartmentRepository.findById(id);
     }
 

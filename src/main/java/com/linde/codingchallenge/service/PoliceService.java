@@ -9,10 +9,14 @@ public interface PoliceService {
 
     Police createPolice(Police police);
 
-    Optional<Police> getPoliceById(Long id);
+    Optional<Police> findPoliceById(Long id);
 
-    List<Police> getAllPolices();
+    List<Police> findAllPolice();
 
     Police updatePolice(Police police);
+
+    List<Police> findAllPoliceInvestigating();
+
+    List<Police> findAllPoliceNotInvestigating();
 
 }
