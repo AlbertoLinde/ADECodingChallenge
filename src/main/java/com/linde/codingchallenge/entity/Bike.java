@@ -38,6 +38,9 @@ public class Bike implements Serializable {
     @Column
     String ownerName;
 
+    @Column
+    String email;
+
     @Column(length = 100)
     String thiefDescription;
 

@@ -2,17 +2,17 @@ package com.linde.codingchallenge.service;
 
 import com.linde.codingchallenge.entity.Police;
 import com.linde.codingchallenge.repository.PoliceRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class PoliceServiceImpl implements PoliceService {
 
-    @Autowired
-    private PoliceRepository policeRepository;
+    private final PoliceRepository policeRepository;
 
     @Override
     public Police createPolice(Police police) {

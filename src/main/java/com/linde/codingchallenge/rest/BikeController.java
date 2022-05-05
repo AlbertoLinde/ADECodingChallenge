@@ -3,6 +3,7 @@ package com.linde.codingchallenge.rest;
 import com.linde.codingchallenge.entity.Bike;
 import com.linde.codingchallenge.entity.Police;
 import com.linde.codingchallenge.service.BikeServiceImpl;
+import com.linde.codingchallenge.service.EmailSenderServiceImpl;
 import com.linde.codingchallenge.service.PoliceServiceImpl;
 import com.linde.codingchallenge.util.ListUtil;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,14 +15,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1")
+@RequiredArgsConstructor
 public class BikeController {
 
     private final BikeServiceImpl bikeService;
-
     private final PoliceServiceImpl policeService;
+    private final EmailSenderServiceImpl emailSenderService;
 
     /**
      * Create new Bike in the Database (If the bike are created and one police are available is assigned automatic)
@@ -156,8 +157,13 @@ public class BikeController {
             policeInvestigating.setInvestigating(false);
             foundBike.setPolice(null);
             foundBike.setStolenStatus(false);
-
             policeService.updatePolice(policeInvestigating);
+
+            emailSenderService.sendEmail(
+                    foundBike.getEmail(),
+                    "Hello " + foundBike.getOwnerName() + ", we found your bike with the licence number: " + foundBike.getLicenceNumber(),
+                    "Hello,  " + foundBike.getOwnerName() + ", we found your bike! Your bike was stolen in " + foundBike.getStolenAddress() + ", come to the police station soon as you can. Thanks"
+            );
 
             return ResponseEntity.status(HttpStatus.OK)
                     .body(bikeService.bikeFound(foundBike));
@@ -185,3 +191,4 @@ public class BikeController {
     }
 
 }
+
