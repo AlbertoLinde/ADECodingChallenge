@@ -178,4 +178,10 @@ public class BikeController {
         return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "Delete all Bikes, just for testing porpouse.")
+    @DeleteMapping("/delete-bikes")
+    public void deleteBikes() {
+        bikeService.deleteAllBike();
+    }
+
 }

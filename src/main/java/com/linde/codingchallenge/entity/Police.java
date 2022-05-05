@@ -1,8 +1,8 @@
 package com.linde.codingchallenge.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,6 +10,8 @@ import java.io.Serializable;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "polices")
@@ -20,6 +22,7 @@ public class Police implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private Long id;
 
     @Column
@@ -28,8 +31,9 @@ public class Police implements Serializable {
     @Column(name = "investigating")
     private Boolean investigating;
 
-    @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private PoliceDepartment policeDepartment;
 
 }

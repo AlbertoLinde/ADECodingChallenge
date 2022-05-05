@@ -51,6 +51,11 @@ public class BikeServiceImpl implements BikeService {
     }
 
     @Override
+    public void deleteAllBike() {
+        bikeRepository.deleteAll();
+    }
+
+    @Override
     public Bike bikeFound(Bike bike) {
         return bikeRepository.save(bike);
     }

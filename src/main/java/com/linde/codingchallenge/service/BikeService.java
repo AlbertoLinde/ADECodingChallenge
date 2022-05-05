@@ -16,4 +16,6 @@ public interface BikeService {
 
     List<Bike> findBikeByColorOrTypeOrStolenStatus(String color, String type, Boolean stolenStatus);
 
+    void deleteAllBike();
+
 }

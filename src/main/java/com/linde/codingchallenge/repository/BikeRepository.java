@@ -21,4 +21,5 @@ public interface BikeRepository extends JpaRepository<Bike, Long> {
 
     List<Bike> findBikeByColorOrTypeOrStolenStatus(String color, String type, Boolean status);
 
+
 }

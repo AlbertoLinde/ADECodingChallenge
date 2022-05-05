@@ -2,6 +2,7 @@ package com.linde.codingchallenge.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,8 +30,9 @@ public class PoliceDepartment implements Serializable {
     @Column
     private String departmentName;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "policeDepartment", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "policeDepartment", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Police> polices;
 
 }
