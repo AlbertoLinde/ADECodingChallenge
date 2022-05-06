@@ -56,6 +56,11 @@ public class BikeServiceImpl implements BikeService {
     }
 
     @Override
+    public void updateBike(Bike bike) {
+        bikeRepository.save(bike);
+    }
+
+    @Override
     public Bike bikeFound(Bike bike) {
         return bikeRepository.save(bike);
     }

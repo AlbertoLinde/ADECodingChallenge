@@ -18,4 +18,6 @@ public interface BikeService {
 
     void deleteAllBike();
 
+    void updateBike(Bike bike);
+
 }

@@ -133,6 +133,7 @@ public class BikeController {
                 police.setInvestigating(true);
                 bike.setStolenStatus(true);
                 bike.setPolice(police);
+                bikeService.updateBike(bike);
                 return bike;
             });
             return ResponseEntity.ok().body(bikesAssigned);
