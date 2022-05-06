@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 @Getter
@@ -25,9 +26,11 @@ public class Police implements Serializable {
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private Long id;
 
+    @NotEmpty
     @Column
     private String name;
 
+    @NotEmpty
     @Column(name = "investigating")
     private Boolean investigating;
 

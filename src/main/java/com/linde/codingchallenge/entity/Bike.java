@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 @Data
@@ -26,27 +27,35 @@ public class Bike implements Serializable {
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     Long id;
 
+    @NotEmpty
     @Column(length = 7, unique = true)
     String licenceNumber;
 
+    @NotEmpty
     @Column
     String type;
 
+    @NotEmpty
     @Column
     String color;
 
+    @NotEmpty
     @Column
     String ownerName;
 
+    @NotEmpty
     @Column
     String email;
 
+    @NotEmpty
     @Column(length = 100)
     String thiefDescription;
 
+    @NotEmpty
     @Column
     String stolenAddress;
 
+    @NotEmpty
     @Column
     Boolean stolenStatus;
 
