@@ -8,6 +8,7 @@ import com.linde.codingchallenge.service.PoliceDepartmentServiceImpl;
 import com.linde.codingchallenge.service.PoliceServiceImpl;
 import lombok.NoArgsConstructor;
 import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -35,6 +36,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@Disabled
 @NoArgsConstructor
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -89,6 +91,7 @@ public class PoliceControllerTest {
                 .andExpect(jsonPath("$.name", is("Alberto")));
     }
 
+
     @Test
     public void findByIdOKTest() throws Exception {
 
@@ -103,6 +106,7 @@ public class PoliceControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$", notNullValue()))
                 .andExpect(jsonPath("$.name", is("Alberto")));
     }
+
 
     @Test
     public void findAllPoliceOfficersOKTest() throws Exception {
