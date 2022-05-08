@@ -160,11 +160,7 @@ public class BikeController {
             foundBike.setStolenStatus(false);
             policeService.updatePolice(policeInvestigating);
 
-            emailSenderService.sendEmail(
-                    foundBike.getEmail(),
-                    "Hello " + foundBike.getOwnerName() + ", we found your bike with the licence number: " + foundBike.getLicenceNumber(),
-                    "Hello,  " + foundBike.getOwnerName() + ", we found your bike! Your bike was stolen in " + foundBike.getStolenAddress() + ", come to the police station soon as you can. Thanks"
-            );
+            emailSenderService.sendEmail(foundBike);
 
             return ResponseEntity.status(HttpStatus.OK)
                     .body(bikeService.bikeFound(foundBike));
