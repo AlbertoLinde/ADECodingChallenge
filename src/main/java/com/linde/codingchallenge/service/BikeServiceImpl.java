@@ -1,8 +1,9 @@
 package com.linde.codingchallenge.service;
 
 import com.linde.codingchallenge.entity.Bike;
+import com.linde.codingchallenge.entity.Police;
 import com.linde.codingchallenge.repository.BikeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -10,15 +11,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class BikeServiceImpl implements BikeService {
 
 
-    @Autowired
-    private BikeRepository bikeRepository;
+    private final BikeRepository bikeRepository;
+    private final PoliceServiceImpl policeService;
 
     @Override
     public Bike createBike(Bike bike) {
-        return bikeRepository.save(bike);
+        return bikeRepository.save(assignPoliceToNewBike(bike));
     }
 
     public Optional<Bike> findBikeById(Long id) {
@@ -71,5 +73,30 @@ public class BikeServiceImpl implements BikeService {
                 .orElseThrow(() -> new EntityNotFoundException("ERROR!: Can't delete Bike with ID: "
                         + id + " because can't find on BD."))
         );
+    }
+
+    private Bike assignPoliceToNewBike(Bike bike) {
+        List<Police> freePolices = policeService.findAllPoliceNotInvestigating();
+        if (!freePolices.isEmpty()) {
+            Police policeAssigned = freePolices.stream()
+                    .findAny()
+                    .get();
+
+            policeAssigned.setInvestigating(true);
+            bike.setPolice(policeAssigned);
+            policeService.updatePolice(policeAssigned);
+        }
+        return bike;
+    }
+
+    public Bike updateStatusBike(Long bikeId) {
+        Bike bike = findBikeById(bikeId)
+                .orElse(null);
+        if (bike != null) {
+            bike.setPolice(null);
+            bike.setStolenStatus(false);
+            bikeRepository.save(bike);
+        }
+        return bike;
     }
 }

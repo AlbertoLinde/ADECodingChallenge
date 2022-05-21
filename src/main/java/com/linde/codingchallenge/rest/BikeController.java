@@ -31,15 +31,8 @@ public class BikeController {
      * @return ResponseEntity
      */
     @Operation(summary = "Create new Stolen Bike")
-    @PostMapping(value = "/addBike")
+    @PostMapping(value = "/add-bike")
     public ResponseEntity<Bike> newBike(@RequestBody Bike bike) {
-        List<Police> freePolices = policeService.findAllPoliceNotInvestigating();
-        if (!freePolices.isEmpty()) {
-            Police policeAssigned = freePolices.stream().findAny().get();
-            policeAssigned.setInvestigating(true);
-            bike.setPolice(policeAssigned);
-            policeService.updatePolice(policeAssigned);
-        }
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(bikeService.createBike(bike));
     }
@@ -107,12 +100,17 @@ public class BikeController {
     @Operation(summary = "Update Stolen status")
     @PutMapping("/bike/{id}")
     public ResponseEntity<?> updateStatusBike(@PathVariable("id") Long id) {
-        Optional<Bike> bike = bikeService.findBikeById(id);
-        if (bike.isPresent()) {
-            Bike stolenBike = bike.get();
-            stolenBike.setPolice(null);
-            stolenBike.setStolenStatus(false);
-            return ResponseEntity.ok(stolenBike);
+//        Optional<Bike> bike = bikeService.findBikeById(id);
+//        if (bike.isPresent()) {
+//            Bike stolenBike = bike.get();
+//            stolenBike.setPolice(null);
+//            stolenBike.setStolenStatus(false);
+//            return ResponseEntity.ok(stolenBike);
+//        }
+//        return ResponseEntity.notFound().build();
+        Bike bike = bikeService.updateStatusBike(id);
+        if (bike != null) {
+            return ResponseEntity.ok(bike);
         }
         return ResponseEntity.notFound().build();
     }
@@ -152,15 +150,16 @@ public class BikeController {
     @PutMapping("/bike/found-bike/{id}")
     public ResponseEntity<?> bikeHasBeenFound(@PathVariable("id") Long id) {
         Optional<Bike> bike = bikeService.findBikeById(id);
+        // TODO: Check if the bike have police assigned
         if (bike.isPresent()) {
             Bike foundBike = bike.get();
             Police policeInvestigating = bike.get().getPolice();
             policeInvestigating.setInvestigating(false);
             foundBike.setPolice(null);
             foundBike.setStolenStatus(false);
+            emailSenderService.sendEmail(foundBike, policeInvestigating);
             policeService.updatePolice(policeInvestigating);
 
-            emailSenderService.sendEmail(foundBike);
 
             return ResponseEntity.status(HttpStatus.OK)
                     .body(bikeService.bikeFound(foundBike));
