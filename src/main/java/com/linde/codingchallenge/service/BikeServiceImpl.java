@@ -3,6 +3,7 @@ package com.linde.codingchallenge.service;
 import com.linde.codingchallenge.entity.Bike;
 import com.linde.codingchallenge.entity.Police;
 import com.linde.codingchallenge.repository.BikeRepository;
+import com.linde.codingchallenge.util.ListUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -98,5 +99,18 @@ public class BikeServiceImpl implements BikeService {
             bikeRepository.save(bike);
         }
         return bike;
+    }
+
+    // TODO: Maybe move to Police Service
+    public List<Bike> assignPoliceOfficerToStolenBikes() {
+        List<Bike> stolenBikes = findBikesByCurrentStatus(true);
+        List<Police> freePoliceOfficers = policeService.findAllPoliceNotInvestigating();
+        return ListUtil.zipList(freePoliceOfficers, stolenBikes, (policeOfficer, bike) -> {
+            policeOfficer.setInvestigating(true);
+            bike.setStolenStatus(true);
+            bike.setPolice(policeOfficer);
+            updateBike(bike);
+            return bike;
+        });
     }
 }

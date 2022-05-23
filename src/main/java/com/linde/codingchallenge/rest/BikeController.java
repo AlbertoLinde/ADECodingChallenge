@@ -100,14 +100,6 @@ public class BikeController {
     @Operation(summary = "Update Stolen status")
     @PutMapping("/bike/{id}")
     public ResponseEntity<?> updateStatusBike(@PathVariable("id") Long id) {
-//        Optional<Bike> bike = bikeService.findBikeById(id);
-//        if (bike.isPresent()) {
-//            Bike stolenBike = bike.get();
-//            stolenBike.setPolice(null);
-//            stolenBike.setStolenStatus(false);
-//            return ResponseEntity.ok(stolenBike);
-//        }
-//        return ResponseEntity.notFound().build();
         Bike bike = bikeService.updateStatusBike(id);
         if (bike != null) {
             return ResponseEntity.ok(bike);
@@ -123,18 +115,9 @@ public class BikeController {
     @Operation(summary = "Assign free police officers to stolen bikes")
     @PutMapping("/bikes/assign-polices")
     public ResponseEntity<List<Bike>> assignFreePoliceToStolenBikes() {
-        List<Police> freePolices = policeService.findAllPoliceNotInvestigating();
-        List<Bike> stolenBikes = bikeService.findBikesByCurrentStatus(true);
-
-        if (!freePolices.isEmpty() && !stolenBikes.isEmpty()) {
-            List<Bike> bikesAssigned = ListUtil.zipList(freePolices, stolenBikes, (police, bike) -> {
-                police.setInvestigating(true);
-                bike.setStolenStatus(true);
-                bike.setPolice(police);
-                bikeService.updateBike(bike);
-                return bike;
-            });
-            return ResponseEntity.ok().body(bikesAssigned);
+        List<Bike> assignedBikes = bikeService.assignPoliceOfficerToStolenBikes();
+        if (!assignedBikes.isEmpty()) {
+            return ResponseEntity.ok().body(bikeService.assignPoliceOfficerToStolenBikes());
         }
         return ResponseEntity.notFound().build();
     }
