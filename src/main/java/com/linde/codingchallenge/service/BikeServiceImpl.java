@@ -18,6 +18,7 @@ public class BikeServiceImpl implements BikeService {
 
     private final BikeRepository bikeRepository;
     private final PoliceServiceImpl policeService;
+    private final EmailSenderServiceImpl emailSenderService;
 
     @Override
     public Bike createBike(Bike bike) {
@@ -113,4 +114,20 @@ public class BikeServiceImpl implements BikeService {
             return bike;
         });
     }
+
+    // TODO: Maybe move to Police Service
+    public Bike bikeHasBeenFound(Long bikeId) {
+        Bike bike = findBikeById(bikeId)
+                .orElse(null);
+        if (bike != null && bike.getPolice() != null) {
+            Police police = bike.getPolice();
+            police.setInvestigating(false);
+            bike.setPolice(null);
+            bike.setStolenStatus(false);
+            emailSenderService.sendEmail(bike, police);
+            policeService.updatePolice(police);
+        }
+        return bike;
+    }
+
 }

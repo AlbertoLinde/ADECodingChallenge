@@ -132,20 +132,10 @@ public class BikeController {
     @Operation(summary = "Set bike has been found by officer")
     @PutMapping("/bike/found-bike/{id}")
     public ResponseEntity<?> bikeHasBeenFound(@PathVariable("id") Long id) {
-        Optional<Bike> bike = bikeService.findBikeById(id);
-        // TODO: Check if the bike have police assigned
-        if (bike.isPresent()) {
-            Bike foundBike = bike.get();
-            Police policeInvestigating = bike.get().getPolice();
-            policeInvestigating.setInvestigating(false);
-            foundBike.setPolice(null);
-            foundBike.setStolenStatus(false);
-            emailSenderService.sendEmail(foundBike, policeInvestigating);
-            policeService.updatePolice(policeInvestigating);
-
-
+        Bike bike = bikeService.bikeHasBeenFound(id);
+        if (bike != null) {
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(bikeService.bikeFound(foundBike));
+                    .body(bike);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body("ERROR: Can't find the Bike with ID: " + id + " in the DB.");
